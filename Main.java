@@ -1,19 +1,30 @@
-//Q1. 입력한 숫자의 합 구하기
-// nextInt 메서드를 사용해 두개의 숫자를 받아 그 합을 출력해보기
+//Q1. 예외 처리하기및 설명
 
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("첫번째 숫자를 입력하세요");
-        int first = sc.nextInt();
-        System.out.printf("두번째 숫자를 입력하세요");
-        int second = sc.nextInt();
+public class Main  {
 
-        int result = first + second;
-        System.out.printf("%d + %d = %d 입니다.%n", first, second, result);
+    public static void main(String[] args){
+        int result = 0;
+        try {
+            int[] a = {1,2,3};
+            int b = a[3]; // ArrayIndexOutOfBoundsException 발생
+            ArrayList c = new ArrayList(Arrays.asList("3"));
+            int d = (int) c.get(0); // ClassCastException 발생
+            int e = 4/0;  // ArithmeticException 발생
+        }   catch (ClassCastException e) {
+            result +=1;
+        }   catch (ArithmeticException e) {
+            result +=2;
+        }   catch (ArrayIndexOutOfBoundsException e) {
+            result +=3;
+        }   finally {// 예외에 상관없이 항상 수행된다.
+            result +=4;
+        }
+        System.out.println(result); //7 출력
 
     }
 }
+

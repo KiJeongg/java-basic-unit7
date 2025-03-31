@@ -1,20 +1,44 @@
-//Q2.입력한 영문을 대문자로 변경하기
-//영문을 입력하고 Enter 키를 누르면 입력한 영문을 대문자로 변경하여 출력하는 프로그램을 완성해 보자.
-//단, 사용자가 ‘END’ 라는 문자열을 입력하기 전까지 반복해서 문장을 입력받을 수 있게 한다.
+//Q2. 스레드 적용하기
 
+import java.util.ArrayList;
+import java.util.TreeMap;
 
-import java.util.Scanner;
+class HeavyWork implements Runnable {
+    String name;
 
-public class Main2 {
-        public static void main(String[] args) {
-            while(true) {
-                Scanner sc = new Scanner(System.in);
-                System.out.print("영어 문장을 입력하세요 : ");
-                String a = sc.nextLine();
-                if("END".equals(a)) {
-                    break;
-                }
-                    System.out.println(a.toUpperCase());
+    HeavyWork(String name) {
+        this.name = name;
+    }
+     @Override
+     public void run() {
+        work();
+     }
+    public void work() {
+        for (int i=0; i<5; i++) {
+            try {
+                Thread.sleep(100);
+            }   catch (Exception e) {
             }
         }
+        System.out.printf("%s done.%n", this.name);
+    }
+}
+
+public class Main2 {
+    public static void main(String[] args) throws  InterruptedException {
+        long start = System.currentTimeMillis();
+        ArrayList<Thread> threads = new ArrayList<>(); //스레드를 저장할 리스트 생성
+        for(int i=1; i<5; i++) {
+           Thread t = new Thread(new HeavyWork("w"+i));
+           threads.add(t);
+           t.start();
+        }
+        for (Thread t : threads) {
+            t.join(); // 저장한 스레드가 종료될때까지 대기한다.
+        }
+            long end = System.currentTimeMillis();
+            System.out.printf("elapsed time:%s ms\n", end - start);
+    }
+
+
 }
